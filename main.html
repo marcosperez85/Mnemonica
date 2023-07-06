@@ -34,38 +34,45 @@
 </body>
 
 <style>
+    :root {
+        --mainContainer-width: 80vw;
+        --main-display-height: 29vw;
+        --button-height: 20vw;
+    }
+
     body {
         background-color: #000;
     }
 
     #mainContainer {
         position: relative;
-        width: 64vw;
+        width: var(--mainContainer-width);
         margin: auto;
+        height: 95vh;
         /* border: 1px solid red; */
     }
 
     h1 {
         background-color: #555;
         text-align: center;
-        font-size: 4vw;
+        font-size: 1.2rem;
     }
 
     #mainDisplay {
         display: grid;
         position: relative;
         place-content: center;
-        height: 20vw;
+        height: var(--main-display-height);
         font-size: 8vw;
         background-color: #999;
     }
 
     h2 {
-        font-size: 3vw;
+        font-size: 1rem;
     }
 
     h3 {
-        font-size: 3vw;
+        font-size: 1rem;
     }
 
     .textos {
@@ -76,17 +83,17 @@
         display: grid;
         position: relative;
         place-content: center;
-        grid-template-columns: repeat(3, 20vw);
-        grid-template-rows: repeat(2, 30vw);
-        grid-gap: 2vw;
-        margin-top: 2vw;
-        margin-bottom: 4vw;
+        grid-template-rows: repeat(6, var(--button-height));
+        grid-gap: 1vh;
+        margin-top: 0vh;
+        /* background-color: #522; */
     }
 
     .cuadro {
         background-color: #999;
         color: black;
-        font-size: 3vw;
+        width: var(--mainContainer-width);
+        font-size: 1.1rem;
     }
 </style>
 
