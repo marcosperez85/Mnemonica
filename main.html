@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" media="screen" href="styles.css">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="styles.css"> -->
     <title>Mnemonica</title>
 </head>
 
@@ -28,7 +29,234 @@
         </div>
     </div>
 
-    <script src="./main.js"></script>
-    <script src="./pegList.js"></script>
+    <!-- <script src="./main.js"></script>
+    <script src="./pegList.js"></script> -->
 </body>
+
+<style>
+    body {
+        background-color: #000;
+    }
+
+    #mainContainer {
+        position: relative;
+        width: 64vw;
+        margin: auto;
+        /* border: 1px solid red; */
+    }
+
+    h1 {
+        background-color: #555;
+        text-align: center;
+        font-size: 4vw;
+    }
+
+    #mainDisplay {
+        display: grid;
+        position: relative;
+        place-content: center;
+        height: 20vw;
+        font-size: 8vw;
+        background-color: #999;
+    }
+
+    h2 {
+        font-size: 3vw;
+    }
+
+    h3 {
+        font-size: 3vw;
+    }
+
+    .textos {
+        color: white;
+    }
+
+    #buttonContainer {
+        display: grid;
+        position: relative;
+        place-content: center;
+        grid-template-columns: repeat(3, 20vw);
+        grid-template-rows: repeat(2, 30vw);
+        grid-gap: 2vw;
+        margin-top: 2vw;
+        margin-bottom: 4vw;
+    }
+
+    .cuadro {
+        background-color: #999;
+        color: black;
+        font-size: 3vw;
+    }
+</style>
+
+<script>
+    const $btnZero = document.getElementById("btnZero");
+    const $btnMinusOne = document.getElementById("btnMinusOne");
+    const $btnMinusTen = document.getElementById("btnMinusTen");
+    const $btnRandom = document.getElementById("btnRandom");
+    const $btnPlusOne = document.getElementById("btnPlusOne");
+    const $btnPlusTen = document.getElementById("btnPlusTen");
+    const $mainDisplay = document.getElementById("mainDisplay");
+
+    let actualValue = 0;
+
+    $btnZero.onclick = function () {
+        actualValue = 0;
+        evaluateResult(actualValue);
+    }
+
+    $btnMinusOne.onclick = function () {
+        actualValue--;
+        evaluateResult(actualValue);
+    }
+
+    $btnMinusTen.onclick = function () {
+        actualValue = actualValue - 10;
+        evaluateResult(actualValue);
+    }
+
+    $btnRandom.onclick = function () {
+        let randomNumber = 1 + Math.random() * 99;
+        actualValue = Math.floor(randomNumber);
+        evaluateResult(actualValue);
+    }
+
+    $btnPlusOne.onclick = function () {
+        actualValue++;
+        evaluateResult(actualValue);
+    }
+
+    $btnPlusTen.onclick = function () {
+        actualValue = actualValue + 10;
+        evaluateResult(actualValue);
+    }
+
+    function evaluateResult() {
+        if (actualValue < 0) {
+            actualValue = 99;
+        }
+
+        if (actualValue > wordList.length - 1) {
+            actualValue = 0;
+        }
+
+        changeMainDisplay(actualValue);
+    }
+
+    $mainDisplay.onclick = function () {
+        $mainDisplay.innerText = $mainDisplay.innerText + " - " + wordList[actualValue];
+    }
+
+    function changeMainDisplay(newValue) {
+        $mainDisplay.innerText = newValue;
+    }
+
+    // Peg list hardcoded for now to have the Minimum Viable Product that I wanted (an old app that is no longer
+    // compatible with current Android version).
+    // Future updates will have the option of customizing the peg list
+
+    const wordList =
+        ["Aro",
+            "Te",
+            "Uña",
+            "Humo",
+            "Oca",
+            "Olla",
+            "Oso",
+            "Ojo",
+            "Hacha",
+            "Uva",
+            "Toro",
+            "Teta",
+            "Tina",
+            "Átomo",
+            "Taco (pool)",
+            "Tela",
+            "Taza",
+            "Teja",
+            "Techo",
+            "Tubo",
+            "Noria (puente)",
+            "Nota (musical)",
+            "Anana",
+            "Nemo",
+            "Ñoqui",
+            "Anillo",
+            "Nuez",
+            "NiFe (lava)",
+            "Nacho",
+            "Nave",
+            "Mora",
+            "Moto",
+            "Mono",
+            "Momia",
+            "Moco",
+            "Miel",
+            "Mazo",
+            "Mijo",
+            "Mecha",
+            "Mapa",
+            "Carro",
+            "Codo",
+            "Cuna",
+            "Cama",
+            "Caca",
+            "Cola",
+            "Casa",
+            "Café",
+            "Coche",
+            "Copa",
+            "Loro",
+            "Lata",
+            "Lana",
+            "Lima",
+            "Laca",
+            "Lila",
+            "Loza",
+            "Lija",
+            "Leche",
+            "Lupa",
+            "Sierra",
+            "Sota",
+            "Seno",
+            "SAME",
+            "Saco",
+            "Silla",
+            "Seso",
+            "Sofa",
+            "Soga",
+            "Sapo",
+            "Faro",
+            "Foto",
+            "Faina",
+            "FM (radio)",
+            "Foca",
+            "Fuelle",
+            "Fosa",
+            "FIFA",
+            "Ficha",
+            "FIUBA (facultad)",
+            "Churro",
+            "Chita",
+            "China",
+            "Goma",
+            "Cheque",
+            "Gallo",
+            "Choza",
+            "Gafa",
+            "Chicha (cerveza)",
+            "Chapa",
+            "Perro",
+            "Pato",
+            "Peine",
+            "Pomo (pasta dental)",
+            "Pico (herramienta)",
+            "Pelo",
+            "Pesa",
+            "Paja",
+            "Pucho",
+            "Papa"];
+</script>
+
 </html>
