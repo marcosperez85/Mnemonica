@@ -12,13 +12,13 @@
 <body>
     <div id="mainContainer">
         <header>
-            <h1 id="title" class="textos">Mnemonic Major Trainer</h1>
-            <h2 id="subtitle" class="textos">Tap to show Peg Word</h2>
+            <h1 id="title" class="textos tituloPrincipal">Mnemonic Major Trainer</h1>
+            <h2 id="subtitle" class="textos textSize">Tap to show Peg Word</h2>
         </header>
 
         <div id="mainDisplay">0</div>
 
-        <h3 id="instructions" class="textos">Tap to change Peg Number</h3>
+        <h3 id="instructions" class="textos textSize">Tap to change Peg Number</h3>
         <div id="buttonContainer">
             <button id="btnZero" class="cuadro">0</button>
             <button id="btnMinusOne" class="cuadro">-1</button>
@@ -35,9 +35,13 @@
 
 <style>
     :root {
-        --mainContainer-width: 80vw;
-        --main-display-height: 29vw;
-        --button-height: 20vw;
+        --mainContainer-width: 76vw;
+        --main-display-height-horizontal: 12vw;
+        --main-display-height-vertical: 20vw;
+        --button-width-horizontal: 24vw;
+        --button-height-horizontal: 12vw;
+        --button-width-vertical: 24vw;
+        --button-height-vertical: 38vw;
     }
 
     body {
@@ -48,52 +52,92 @@
         position: relative;
         width: var(--mainContainer-width);
         margin: auto;
-        height: 95vh;
+        /* height: 90vh; */
         /* border: 1px solid red; */
-    }
-
-    h1 {
-        background-color: #555;
-        text-align: center;
-        font-size: 1.2rem;
-    }
-
-    #mainDisplay {
-        display: grid;
-        position: relative;
-        place-content: center;
-        height: var(--main-display-height);
-        font-size: 8vw;
-        background-color: #999;
-    }
-
-    h2 {
-        font-size: 1rem;
-    }
-
-    h3 {
-        font-size: 1rem;
     }
 
     .textos {
         color: white;
     }
 
-    #buttonContainer {
-        display: grid;
-        position: relative;
-        place-content: center;
-        grid-template-rows: repeat(6, var(--button-height));
-        grid-gap: 1vh;
-        margin-top: 0vh;
-        /* background-color: #522; */
+    @media (min-width: 600px) {
+        #mainDisplay {
+            display: grid;
+            position: relative;
+            place-content: center;
+            height: var(--main-display-height-horizontal);
+            font-size: 7vw;
+            background-color: #999;
+        }
+
+        .tituloPrincipal {
+            background-color: #555;
+            text-align: center;
+            font-size: 4vw;
+        }
+
+        .textSize {
+            font-size: 2.5vw;
+        }
+
+    
+
+        #buttonContainer {
+            display: grid;
+            position: relative;
+            place-content: center;
+            width: var(--mainContainer-width);
+            grid-template-columns: repeat(3, var(--button-width-horizontal));
+            grid-template-rows: repeat(2, var(--button-height-horizontal));
+            grid-gap: 2vw;
+            /* background-color: #522; */
+        }
+
+        .cuadro {
+            background-color: #999;
+            color: black;
+            font-size: 3.5vw;
+        }
     }
 
-    .cuadro {
-        background-color: #999;
-        color: black;
-        width: var(--mainContainer-width);
-        font-size: 1.1rem;
+
+    @media (max-width: 600px) {
+
+        #mainDisplay {
+            display: grid;
+            position: relative;
+            place-content: center;
+            height: var(--main-display-height-vertical);
+            font-size: 7vw;
+            background-color: #999;
+        }
+
+        .tituloPrincipal {
+            background-color: #555;
+            text-align: center;
+            font-size: 5vw;
+        }
+
+        .textSize {
+            font-size: 5vw;
+        }
+
+        #buttonContainer {
+            display: grid;
+            position: relative;
+            place-content: center;
+            width: var(--mainContainer-width);
+            grid-template-columns: repeat(3, var(--button-width-vertical));
+            grid-template-rows: repeat(2, var(--button-height-vertical));
+            grid-gap: 2vw;
+            /* background-color: #522; */
+        }
+
+        .cuadro {
+            background-color: #999;
+            color: black;
+            font-size: 4.5vw;
+        }
     }
 </style>
 
@@ -105,43 +149,50 @@
     const $btnPlusOne = document.getElementById("btnPlusOne");
     const $btnPlusTen = document.getElementById("btnPlusTen");
     const $mainDisplay = document.getElementById("mainDisplay");
+    let isDisplayBlocked = false;
 
     let actualValue = 0;
 
     $btnZero.onclick = function () {
         actualValue = 0;
         evaluateResult(actualValue);
+        unBlockDisplay();
     }
 
     $btnMinusOne.onclick = function () {
         actualValue--;
         evaluateResult(actualValue);
+        unBlockDisplay();
     }
 
     $btnMinusTen.onclick = function () {
         actualValue = actualValue - 10;
         evaluateResult(actualValue);
+        unBlockDisplay();
     }
 
     $btnRandom.onclick = function () {
         let randomNumber = 1 + Math.random() * 99;
         actualValue = Math.floor(randomNumber);
         evaluateResult(actualValue);
+        unBlockDisplay();
     }
 
     $btnPlusOne.onclick = function () {
         actualValue++;
         evaluateResult(actualValue);
+        unBlockDisplay();
     }
 
     $btnPlusTen.onclick = function () {
         actualValue = actualValue + 10;
         evaluateResult(actualValue);
+        unBlockDisplay();
     }
 
     function evaluateResult() {
         if (actualValue < 0) {
-            actualValue = 99;
+            actualValue = wordList.length - 1;
         }
 
         if (actualValue > wordList.length - 1) {
@@ -152,12 +203,25 @@
     }
 
     $mainDisplay.onclick = function () {
-        $mainDisplay.innerText = $mainDisplay.innerText + " - " + wordList[actualValue];
+        if (isDisplayBlocked == false) {
+            $mainDisplay.innerText = $mainDisplay.innerText + " - " + wordList[actualValue];
+            bloquearDisplay();
+        }
     }
 
     function changeMainDisplay(newValue) {
         $mainDisplay.innerText = newValue;
     }
+
+    function bloquearDisplay() {
+        isDisplayBlocked = true;
+    }
+
+    function unBlockDisplay() {
+        isDisplayBlocked = false;
+    }
+
+
 
     // Peg list hardcoded for now to have the Minimum Viable Product that I wanted (an old app that is no longer
     // compatible with current Android version).
@@ -255,7 +319,7 @@
             "Chicha (cerveza)",
             "Chapa",
             "Perro",
-            "Pato",
+            "Pito",
             "Peine",
             "Pomo (pasta dental)",
             "Pico (herramienta)",
